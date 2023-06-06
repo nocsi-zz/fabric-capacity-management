@@ -1,0 +1,60 @@
+{
+    "name": "Fabric Capacity Resume",
+    "properties": {
+        "activities": [
+            {
+                "name": "Fabric Capacity Resume",
+                "type": "WebActivity",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": {
+                        "value": "https://management.azure.com/subscriptions/@{pipeline().parameters.subsciptionId}/resourceGroups/@{pipeline().parameters.resourceGroupName}/providers/Microsoft.Fabric/capacities/@{pipeline().parameters.dedicatedCapacityName}/resume?api-version=@{variables('apiVersion')}",
+                        "type": "Expression"
+                    },
+                    "method": "POST",
+                    "body": {
+                        "dummy": true
+                    },
+                    "authentication": {
+                        "type": "MSI",
+                        "resource": "https://management.azure.com"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "subsciptionId": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "resourceGroupName": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "dedicatedCapacityName": {
+                "type": "string",
+                "defaultValue": ""
+            }
+        },
+        "variables": {
+            "apiVersion": {
+                "type": "String",
+                "defaultValue": "2022-07-01-preview"
+            }
+        },
+        "folder": {
+            "name": "Fabric Capacity Management"
+        },
+        "annotations": [],
+        "lastPublishTime": "2023-06-03T19:41:08Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
