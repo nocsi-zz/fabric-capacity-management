@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "fa66e577-7717-4170-965e-b8bf708a4737",
+		"name": "Fabric Capacity Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8356594"
+	},
+	"item": [
+		{
+			"name": "Fabric Capacities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://management.azure.com/subscriptions/{{subsciptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Fabric/capacities/{{dedicatedCapacityName}}?api-version={{apiVersion}}",
+					"protocol": "https",
+					"host": [
+						"management",
+						"azure",
+						"com"
+					],
+					"path": [
+						"subscriptions",
+						"{{subsciptionId}}",
+						"resourceGroups",
+						"{{resourceGroupName}}",
+						"providers",
+						"Microsoft.Fabric",
+						"capacities",
+						"{{dedicatedCapacityName}}"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "{{apiVersion}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fabric Capacity Resume",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://management.azure.com/subscriptions/{{subsciptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Fabric/capacities/{{dedicatedCapacityName}}/resume?api-version={{apiVersion}}",
+					"protocol": "https",
+					"host": [
+						"management",
+						"azure",
+						"com"
+					],
+					"path": [
+						"subscriptions",
+						"{{subsciptionId}}",
+						"resourceGroups",
+						"{{resourceGroupName}}",
+						"providers",
+						"Microsoft.Fabric",
+						"capacities",
+						"{{dedicatedCapacityName}}",
+						"resume"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "{{apiVersion}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fabric Capacity Suspend",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://management.azure.com/subscriptions/{{subsciptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Fabric/capacities/{{dedicatedCapacityName}}/suspend?api-version={{apiVersion}}",
+					"protocol": "https",
+					"host": [
+						"management",
+						"azure",
+						"com"
+					],
+					"path": [
+						"subscriptions",
+						"{{subsciptionId}}",
+						"resourceGroups",
+						"{{resourceGroupName}}",
+						"providers",
+						"Microsoft.Fabric",
+						"capacities",
+						"{{dedicatedCapacityName}}",
+						"suspend"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "{{apiVersion}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fabric Capacity Sku",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sku\": {\r\n    \"name\": \"F2\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://management.azure.com/subscriptions/{{subsciptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Fabric/capacities/{{dedicatedCapacityName}}?api-version={{apiVersion}}",
+					"protocol": "https",
+					"host": [
+						"management",
+						"azure",
+						"com"
+					],
+					"path": [
+						"subscriptions",
+						"{{subsciptionId}}",
+						"resourceGroups",
+						"{{resourceGroupName}}",
+						"providers",
+						"Microsoft.Fabric",
+						"capacities",
+						"{{dedicatedCapacityName}}"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "{{apiVersion}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "clientId",
+				"value": "{{clientId}}",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{clientSecret}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://login.microsoftonline.com/{{tenantId}}/oauth2/token",
+				"type": "string"
+			},
+			{
+				"key": "tokenRequestParams",
+				"value": [
+					{
+						"key": "resource",
+						"value": "https://management.azure.com",
+						"enabled": true,
+						"send_as": "request_body"
+					}
+				],
+				"type": "any"
+			},
+			{
+				"key": "tokenName",
+				"value": "Fabric",
+				"type": "string"
+			},
+			{
+				"key": "refreshRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "authRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "subsciptionId",
+			"value": ""
+		},
+		{
+			"key": "resourceGroupName",
+			"value": ""
+		},
+		{
+			"key": "dedicatedCapacityName",
+			"value": ""
+		},
+		{
+			"key": "tenantId",
+			"value": ""
+		},
+		{
+			"key": "apiVersion",
+			"value": "2022-07-01-preview"
+		},
+		{
+			"key": "clientSecret",
+			"value": ""
+		},
+		{
+			"key": "clientId",
+			"value": ""
+		}
+	]
+}
