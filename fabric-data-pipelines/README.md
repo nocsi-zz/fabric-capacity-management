@@ -30,3 +30,26 @@ The pipelines will start with a request to get a token and then use this token f
 -	Currently there is no support for managed identity in Fabric meaning the hassle and vulnerability of using an app registration with a secret.
 -	The need for the web activity to get the token in Fabric Data Pipelines. ADFs web activity has the possibility to use "service principal" for authentication through an app, which would make the pipeline simpler. Not to mention the possibility to use Azure KeyVault for referencing the App Secret in a secure place.
 
+## Guide for Fabric Capacities pipeline:
+
+| Description  | Image |
+| ------------- | ------------- |
+| Add the parameters | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/c0b271f4-d975-44fb-a260-b2fc9a38f591)  |
+| Add the Variable "apiVersion" with the value "2022-07-01-preview". This could change in the future when it is out of preview.  | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/2de53dee-02ce-4875-b6cb-23fd5d2d8e67)  |
+| Add two "Web" activities and connect them "On success". Give the first activity the name "App Fabric Capacity Token" and the second activity the name "Fabric Capacities" (optional). | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/8d46d113-475c-412e-91c1-76f4bd3dbb32) |
+| On the "App Fabric Capacity Token" activity set Secure output and input to true in the advanced section: | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/900c9aea-2521-4985-b0cc-4014095a3a71) |
+| On the Settings tab create a new connection with a Base Url "https://login.microsoftonline.com" and a optional "Connection name": | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/4afa791f-0d37-402e-8bf6-4f1783992b9a) |
+| The other settings:| ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/c0aceb33-207d-4819-b424-cdd2b02a514f) |
+| - Relative URL (dynamic content): /@{pipeline().parameters.tenantId}/oauth2/token  ||
+| - Method: POST ||
+| - Body (dynamic content): client_id=@{pipeline().parameters.clientId}&client_secret=@{json(string(pipeline().parameters.clientSecret)).value}&grant_type=client_credentials&resource=https://management.azure.com ||
+| - Headers (new): Content-Type = application/x-www-form-urlencoded  ||
+| The other web activity ("Fabric Capacities") should have Secure input set to true in the advanced section: | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/0697430c-69b9-4024-8c98-3497a5f26324) |
+| On the Settings tab create a new connection with a Base Url "https://login.microsoftonline.com" and a optional "Connection name": | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/d57c5e70-fa7f-4ff7-a8b0-2b96e983b487) |
+| The other settings: | ![image](https://github.com/nocsi-zz/fabric-capacity-management/assets/1149028/2e45a0a9-55bb-43cf-adbf-ff10c536f5ab) |
+| - Relative URL (dynamic content): /subscriptions/@{pipeline().parameters.subsciptionId}/resourceGroups/@{pipeline().parameters.resourceGroupName}/providers/Microsoft.Fabric/capacities/@{pipeline().parameters.dedicatedCapacityName}?api-version=@{variables('apiVersion')} |  |
+| - Method: GET |  |
+| - Headers (new using dynamic content in value): Authorization = Bearer @{activity('App Fabric Capacity Token').output.access_token} |  |
+
+
+Save and run. To debug compare the JSON code in the View->View JSON code with the code in [Fabric Capacities](Fabric%20Capacities.json).
