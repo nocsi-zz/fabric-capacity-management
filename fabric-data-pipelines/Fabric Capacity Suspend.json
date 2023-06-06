@@ -1,0 +1,109 @@
+{
+    "name": "Fabric Capacity Suspend",
+    "objectId": "",
+    "properties": {
+        "activities": [
+            {
+                "name": "App Fabric Capacity Token",
+                "type": "WebActivity",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": true,
+                    "secureInput": true
+                },
+                "typeProperties": {
+                    "relativeUrl": {
+                        "value": "/@{pipeline().parameters.tenantId}/oauth2/token",
+                        "type": "Expression"
+                    },
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    "body": {
+                        "value": "client_id=@{pipeline().parameters.clientId}\n&client_secret=@{json(string(pipeline().parameters.clientSecret)).value}\n&grant_type=client_credentials\n&resource=https://management.azure.com",
+                        "type": "Expression"
+                    }
+                },
+                "externalReferences": {
+                    "connection": ""
+                }
+            },
+            {
+                "name": "Fabric Capacity Suspend",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "App Fabric Capacity Token",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": true
+                },
+                "typeProperties": {
+                    "relativeUrl": {
+                        "value": "/subscriptions/@{pipeline().parameters.subsciptionId}/resourceGroups/@{pipeline().parameters.resourceGroupName}/providers/Microsoft.Fabric/capacities/@{pipeline().parameters.dedicatedCapacityName}/suspend?api-version=@{variables('apiVersion')}",
+                        "type": "Expression"
+                    },
+                    "method": "POST",
+                    "headers": {
+                        "Authorization": {
+                            "value": "Bearer @{activity('App Fabric Capacity Token').output.access_token}",
+                            "type": "Expression"
+                        }
+                    },
+                    "body": {
+                        "dummy": true
+                    }
+                },
+                "externalReferences": {
+                    "connection": ""
+                }
+            }
+        ],
+        "parameters": {
+            "subsciptionId": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "resourceGroupName": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "dedicatedCapacityName": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "clientId": {
+                "type": "string",
+                "defaultValue": ""
+            },
+            "clientSecret": {
+                "type": "securestring"
+            },
+            "tenantId": {
+                "type": "string",
+                "defaultValue": ""
+            }
+        },
+        "variables": {
+            "apiVersion": {
+                "type": "String",
+                "defaultValue": "2022-07-01-preview"
+            }
+        },
+        "annotations": [],
+        "lastModifiedByObjectId": "",
+        "lastPublishTime": "2023-06-06T12:46:17Z"
+    }
+}
