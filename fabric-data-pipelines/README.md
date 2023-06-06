@@ -23,8 +23,6 @@ The pipelines will start with a request to get a token and then use this token f
 
 ## Pros: 
 -	Using Fabric Data Pipelines to handle the capacity management will work towards a strategy to handle all logic in Fabric, without the need for other Azure services.
--	It is possible to use ADFs Managed Identity to give access to the Fabric Capacity, meaning no need for an app registration. If you don’t have access to create an App registration needed for authentication, then ADF would be a good starting point.
--	ADF allows pasting the JSON code found in this repository into the UI, while Fabric currently only has read-only JSON, meaning it is faster to just test using ADF. 
 
 ## Cons: 
 -	Currently there is no support for managed identity in Fabric meaning the hassle and vulnerability of using an app registration with a secret.
